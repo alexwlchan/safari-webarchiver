@@ -56,3 +56,22 @@ def test_it_fails_if_you_supply_the_wrong_arguments(argv: list[str]) -> None:
     assert (
         result["stderr"] == "Usage: save_safari_webarchive.swift <URL> <OUTPUT_PATH>\n"
     )
+
+
+@pytest.mark.parametrize("status_code", ["404", "410", "500"])
+def test_it_fails_if_non_200_status_code(
+    status_code: str, tmp_path: pathlib.Path
+) -> None:
+    out_path = tmp_path / "example.webarchive"
+    assert not out_path.exists()
+
+    url = f"https://httpstat.us/{status_code}"
+
+    result = save_safari_webarchive([url, str(out_path)])
+
+    assert result["returncode"] == 1
+    assert result["stdout"] is None
+    assert result["stderr"] == f"Failed to load {url}: got status code {status_code}\n"
+
+    # Check a web archive wasn't created
+    assert not out_path.exists()
