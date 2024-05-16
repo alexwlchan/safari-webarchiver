@@ -39,7 +39,7 @@ class ExitOnFailureDelegate: NSObject, WKNavigationDelegate {
     didFailProvisionalNavigation: WKNavigation!,
     withError error: Error
   ) {
-    fputs("Failed to load \(self.urlString) (2): \(error.localizedDescription)\n", stderr)
+    fputs("Failed to load \(self.urlString): \(error.localizedDescription)\n", stderr)
     exit(1)
   }
 

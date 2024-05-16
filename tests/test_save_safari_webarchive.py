@@ -75,3 +75,19 @@ def test_it_fails_if_non_200_status_code(
 
     # Check a web archive wasn't created
     assert not out_path.exists()
+
+
+def test_it_fails_if_cannot_load_domain(tmp_path: pathlib.Path) -> None:
+    out_path = tmp_path / "example.webarchive"
+    assert not out_path.exists()
+
+    result = save_safari_webarchive(["https://doesnotexist.tk/", str(out_path)])
+
+    assert result["returncode"] == 1
+    assert result["stdout"] is None
+    assert (
+        result["stderr"]
+        == "Failed to load https://doesnotexist.tk/: A server with the specified hostname could not be found.\n"
+    )
+
+    assert not out_path.exists()
