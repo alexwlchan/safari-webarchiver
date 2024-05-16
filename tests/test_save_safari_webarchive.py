@@ -2,6 +2,7 @@
 
 import os
 import pathlib
+import plistlib
 
 import pytest
 
@@ -25,6 +26,17 @@ def test_creates_a_single_archive(out_path: pathlib.Path) -> None:
     assert result["stdout"] is not None
     assert result["stderr"] is None
     assert out_path.exists()
+
+    with open(out_path, "rb") as in_file:
+        webarchive = plistlib.load(in_file)
+
+    main_resource = webarchive["WebMainResource"]
+
+    assert main_resource["WebResourceURL"] == "https://example.com/"
+    assert (
+        main_resource["WebResourceData"]
+        == open("tests/fixtures/example.com.html", "rb").read()
+    )
 
 
 def test_does_not_overwrite_existing_archive(out_path: pathlib.Path) -> None:
