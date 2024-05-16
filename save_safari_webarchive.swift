@@ -111,8 +111,8 @@ extension WKWebView {
 }
 
 guard CommandLine.arguments.count == 3 else {
-    fputs("Usage: \(CommandLine.arguments[0]) <URL> <OUTPUT_PATH>\n", stderr)
-    exit(1)
+  fputs("Usage: \(CommandLine.arguments[0]) <URL> <OUTPUT_PATH>\n", stderr)
+  exit(1)
 }
 
 let urlString = CommandLine.arguments[1]
