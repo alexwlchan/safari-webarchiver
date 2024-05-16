@@ -59,8 +59,6 @@ class ExitOnFailureDelegate: NSObject, WKNavigationDelegate {
   }
 }
 
-let webView = WKWebView()
-
 extension WKWebView {
 
   /// Load the given URL in the web view.
@@ -117,6 +115,8 @@ guard CommandLine.arguments.count == 3 else {
 
 let urlString = CommandLine.arguments[1]
 let savePath = URL(fileURLWithPath: CommandLine.arguments[2])
+
+let webView = WKWebView()
 
 webView.load(urlString)
 webView.saveAsWebArchive(savePath: savePath)
