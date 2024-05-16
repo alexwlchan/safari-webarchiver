@@ -7,11 +7,18 @@ import pytest
 from utils import save_safari_webarchive
 
 
-def test_creates_a_single_archive(tmp_path: pathlib.Path) -> None:
-    out_path = tmp_path / "example.webarchive"
-    assert not out_path.exists()
+@pytest.fixture
+def out_path(tmp_path: pathlib.Path) -> None:
+    """
+    Returns a temporary path where we can write a webarchive.
 
-    result = save_safari_webarchive(["https://example.com", str(out_path)])
+    Any files written to this path will be cleaned up at the end of the test.
+    """
+    return tmp_path / "example.webarchive"
+
+
+def test_creates_a_single_archive(out_path: pathlib.Path) -> None:
+    result = save_safari_webarchive(["https://example.com", out_path])
 
     assert result["returncode"] == 0
     assert result["stdout"] is not None
@@ -19,20 +26,21 @@ def test_creates_a_single_archive(tmp_path: pathlib.Path) -> None:
     assert out_path.exists()
 
 
-def test_does_not_overwrite_existing_archive(tmp_path: pathlib.Path) -> None:
-    out_path = tmp_path / "example.webarchive"
+def test_does_not_overwrite_existing_archive(out_path: pathlib.Path) -> None:
     out_path.write_text("This should still be here later")
 
-    result = save_safari_webarchive(["https://example.com", str(out_path)])
+    result = save_safari_webarchive(["https://example.com", out_path])
 
-    assert result["returncode"] == 1
-    assert result["stdout"] is None
-    assert result["stderr"] == (
-        "Unable to save webarchive file: "
-        "The file “example.webarchive” couldn’t be saved in the folder "
-        "“test_does_not_overwrite_existi0” because a file with "
-        "the same name already exists.\n"
-    )
+    assert result == {
+        "returncode": 1,
+        "stdout": None,
+        "stderr": (
+            "Unable to save webarchive file: "
+            "The file “example.webarchive” couldn’t be saved in the folder "
+            "“test_does_not_overwrite_existi0” because a file with "
+            "the same name already exists.\n"
+        ),
+    }
 
     assert out_path.read_text() == "This should still be here later"
 
@@ -51,43 +59,49 @@ def test_does_not_overwrite_existing_archive(tmp_path: pathlib.Path) -> None:
 def test_it_fails_if_you_supply_the_wrong_arguments(argv: list[str]) -> None:
     result = save_safari_webarchive(argv)
 
-    assert result["returncode"] == 1
-    assert result["stdout"] is None
-    assert (
-        result["stderr"] == "Usage: save_safari_webarchive.swift <URL> <OUTPUT_PATH>\n"
-    )
+    assert result == {
+        "returncode": 1,
+        "stdout": None,
+        "stderr": "Usage: save_safari_webarchive.swift <URL> <OUTPUT_PATH>\n",
+    }
 
 
 @pytest.mark.parametrize("status_code", ["404", "410", "500"])
 def test_it_fails_if_non_200_status_code(
-    status_code: str, tmp_path: pathlib.Path
+    status_code: str, out_path: pathlib.Path
 ) -> None:
-    out_path = tmp_path / "example.webarchive"
-    assert not out_path.exists()
-
     url = f"https://httpstat.us/{status_code}"
 
-    result = save_safari_webarchive([url, str(out_path)])
+    result = save_safari_webarchive([url, out_path])
 
-    assert result["returncode"] == 1
-    assert result["stdout"] is None
-    assert result["stderr"] == f"Failed to load {url}: got status code {status_code}\n"
+    assert result == {
+        "returncode": 1,
+        "stdout": None,
+        "stderr": f"Failed to load {url}: got status code {status_code}\n",
+    }
 
-    # Check a web archive wasn't created
     assert not out_path.exists()
 
 
-def test_it_fails_if_cannot_load_domain(tmp_path: pathlib.Path) -> None:
-    out_path = tmp_path / "example.webarchive"
+def test_it_fails_if_cannot_load_domain(out_path: pathlib.Path) -> None:
+    result = save_safari_webarchive(["https://doesnotexist.tk/", out_path])
+
+    assert result == {
+        "returncode": 1,
+        "stdout": None,
+        "stderr": "Failed to load https://doesnotexist.tk/: A server with the specified hostname could not be found.\n",
+    }
+
     assert not out_path.exists()
 
-    result = save_safari_webarchive(["https://doesnotexist.tk/", str(out_path)])
 
-    assert result["returncode"] == 1
-    assert result["stdout"] is None
-    assert (
-        result["stderr"]
-        == "Failed to load https://doesnotexist.tk/: A server with the specified hostname could not be found.\n"
-    )
+def test_it_fails_if_url_is_invalid(out_path: pathlib.Path) -> None:
+    result = save_safari_webarchive([">", out_path])
+
+    assert result == {
+        "returncode": 1,
+        "stdout": None,
+        "stderr": "Unable to use > as a URL\n",
+    }
 
     assert not out_path.exists()

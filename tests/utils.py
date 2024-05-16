@@ -1,3 +1,4 @@
+import pathlib
 import subprocess
 import typing
 
@@ -8,9 +9,14 @@ class CommandOutput(typing.TypedDict):
     stderr: str | None
 
 
-def save_safari_webarchive(args: list[str]) -> CommandOutput:
+def save_safari_webarchive(argv: list[str | pathlib.Path]) -> CommandOutput:
+    """
+    Run the ``save_safari_webarchive.swift`` script and return the result.
+    """
+    cmd = ["swift", "save_safari_webarchive.swift"] + [str(av) for av in argv]
+
     proc = subprocess.Popen(
-        ["swift", "save_safari_webarchive.swift"] + args,
+        cmd,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
     )
