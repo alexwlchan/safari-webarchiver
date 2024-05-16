@@ -39,7 +39,7 @@ class ExitOnFailureDelegate: NSObject, WKNavigationDelegate {
     didFailProvisionalNavigation: WKNavigation!,
     withError error: Error
   ) {
-    fputs("Failed to load \(self.urlString) (2): \(error.localizedDescription)\n", stderr)
+    fputs("Failed to load \(self.urlString): \(error.localizedDescription)\n", stderr)
     exit(1)
   }
 
@@ -111,7 +111,7 @@ extension WKWebView {
 }
 
 guard CommandLine.arguments.count == 3 else {
-    print("Usage: \(CommandLine.arguments[0]) <URL> <OUTPUT_PATH>")
+    fputs("Usage: \(CommandLine.arguments[0]) <URL> <OUTPUT_PATH>\n", stderr)
     exit(1)
 }
 
