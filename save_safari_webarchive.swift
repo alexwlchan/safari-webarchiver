@@ -111,7 +111,7 @@ extension WKWebView {
 }
 
 guard CommandLine.arguments.count == 3 else {
-    print("Usage: \(CommandLine.arguments[0]) <URL> <OUTPUT_PATH>")
+    fputs("Usage: \(CommandLine.arguments[0]) <URL> <OUTPUT_PATH>\n", stderr)
     exit(1)
 }
 

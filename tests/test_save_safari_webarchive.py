@@ -2,6 +2,8 @@
 
 import pathlib
 
+import pytest
+
 from utils import save_safari_webarchive
 
 
@@ -33,3 +35,24 @@ def test_does_not_overwrite_existing_archive(tmp_path: pathlib.Path) -> None:
     )
 
     assert out_path.read_text() == "This should still be here later"
+
+
+@pytest.mark.parametrize(
+    "argv",
+    [
+        pytest.param([], id="no_arguments"),
+        pytest.param(["https://example.com"], id="not_enough_arguments"),
+        pytest.param(
+            ["https://example.com", "example.webarchive", "--debug"],
+            id="too_many_arguments",
+        ),
+    ],
+)
+def test_it_fails_if_you_supply_the_wrong_arguments(argv: list[str]) -> None:
+    result = save_safari_webarchive(argv)
+
+    assert result["returncode"] == 1
+    assert result["stdout"] is None
+    assert (
+        result["stderr"] == "Usage: save_safari_webarchive.swift <URL> <OUTPUT_PATH>\n"
+    )
