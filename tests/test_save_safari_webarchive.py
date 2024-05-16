@@ -67,7 +67,7 @@ def test_it_fails_if_you_supply_the_wrong_arguments(argv: list[str]) -> None:
     }
 
 
-@pytest.mark.parametrize("status_code", ["404", "410", "500"])
+@pytest.mark.parametrize("status_code", ["403", "404", "410", "500"])
 def test_it_fails_if_non_200_status_code(
     status_code: str, out_path: pathlib.Path
 ) -> None:
