@@ -26,16 +26,16 @@ class ExitOnFailureDelegate: NSObject, WKNavigationDelegate {
   }
 
   func webView(
-    _ webView: WKWebView,
+    _: WKWebView,
     didFail: WKNavigation!,
     withError error: Error
   ) {
-    fputs("Failed to load \(self.urlString) (1): \(error.localizedDescription)\n", stderr)
+    fputs("Failed to load \(self.urlString): \(error.localizedDescription)\n", stderr)
     exit(1)
   }
 
   func webView(
-    _ webView: WKWebView,
+    _: WKWebView,
     didFailProvisionalNavigation: WKNavigation!,
     withError error: Error
   ) {
@@ -44,7 +44,7 @@ class ExitOnFailureDelegate: NSObject, WKNavigationDelegate {
   }
 
   func webView(
-    _ webView: WKWebView,
+    _: WKWebView,
     decidePolicyFor navigationResponse: WKNavigationResponse,
     decisionHandler: (WKNavigationResponsePolicy) -> Void
   ) {
