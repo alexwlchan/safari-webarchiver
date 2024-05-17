@@ -13,6 +13,9 @@
 ///
 /// For a detailed explanation of the code in this script, see
 /// https://alexwlchan.net/2024/creating-a-safari-webarchive/
+///
+/// The canonical copy of this script lives in GitHub, see
+/// https://github.com/alexwlchan/safari-webarchiver
 
 import WebKit
 
