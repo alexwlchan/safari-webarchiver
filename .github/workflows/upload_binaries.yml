@@ -38,7 +38,7 @@ jobs:
         run: swiftc save_safari_webarchive.swift
 
       - name: Create the zip archive
-        run: zip "save_safari_webarchive.${{ matrix.target }}.zip" save_safari_webarchive
+        run: zip "save_safari_webarchive.${{ matrix.target }}.zip" save_safari_webarchive README.md LICENSE
 
       - name: Push the zip file to the GitHub release
         run: gh release upload "$TAG" "save_safari_webarchive.${{ matrix.target }}.zip" --clobber
