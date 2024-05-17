@@ -1,0 +1,49 @@
+name: Upload binaries
+
+on:
+  push:
+    branches:
+    - main
+
+  pull_request:
+    branches:
+    - main
+  
+  # push:
+  #   main
+    # tags:
+    #   - v[0-9]+.*
+
+jobs:
+  # create-release:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: taiki-e/create-gh-release-action@v1
+  #       with:
+  #         changelog: CHANGELOG.md
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  upload-assets:
+    strategy:
+      matrix:
+        include:
+          - target: aarch64-apple-darwin
+            os: macos-latest
+          - target: x86_64-apple-darwin
+            os: macos-latest
+
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Compile the Swift script
+        run: swiftc save_safari_webarchive.swift
+        # with:
+        #   target: ${{ matrix.target }}
+        #   bin: dominant_colours
+        #   tar: all
+        #   zip: windows
+        # env:
+        #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
