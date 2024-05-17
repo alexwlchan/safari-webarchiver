@@ -21,11 +21,14 @@ jobs:
   upload-assets:
     strategy:
       matrix:
+
+        # See https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners#standard-github-hosted-runners-for-public-repositories
         include:
           - target: aarch64-apple-darwin
             os: macos-latest
           - target: x86_64-apple-darwin
-            os: macos-latest
+            os: macos-13
+
     runs-on: ${{ matrix.os }}
 
     permissions:
