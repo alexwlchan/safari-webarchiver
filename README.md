@@ -22,3 +22,7 @@ For example, this command will save the URL to this GitHub repo to `safari-webar
 ```console
 $ ./save_safari_webarchive.swift "https://github.com/alexwlchan/safari-webarchiver" "safari-webarchiver.webarchive"
 ```
+
+## Acknowledgements
+
+This is partially inspired by [a similar script](https://github.com/newzealandpaul/webarchiver) written in 2008 by newzealandpaul.
