@@ -17,3 +17,30 @@ jobs:
           changelog: CHANGELOG.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  upload-assets:
+    strategy:
+      matrix:
+        include:
+          - target: aarch64-apple-darwin
+            os: macos-latest
+          - target: x86_64-apple-darwin
+            os: macos-latest
+    runs-on: ${{ matrix.os }}
+
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Compile the Swift script
+        run: swiftc save_safari_webarchive.swift
+
+      - name: Create the zip archive
+        run: zip "save_safari_webarchive.${{ matrix.target }}.zip" save_safari_webarchive
+
+      - name: Puhs the zip file to GitHub releases
+        run: gh release upload "$GITHUB_REF" "save_safari_webarchive.${{ matrix.target }}.zip" --clobber
+        env:
+          GH_TOKEN: ${{ github.token }}
