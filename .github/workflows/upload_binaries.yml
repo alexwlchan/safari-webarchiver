@@ -41,7 +41,6 @@ jobs:
         run: zip "save_safari_webarchive.${{ matrix.target }}.zip" save_safari_webarchive README.md LICENSE
 
       - name: Push the zip file to the GitHub release
-        run: gh release upload "$TAG" "save_safari_webarchive.${{ matrix.target }}.zip" --clobber
+        run: gh release upload "$GITHUB_REF_NAME" "save_safari_webarchive.${{ matrix.target }}.zip" --clobber
         env:
           GH_TOKEN: ${{ github.token }}
-          TAG: ${{ github.ref }}
