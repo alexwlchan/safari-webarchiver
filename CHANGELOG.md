@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v0.9.4 - 2024-05-17
+
+Trigger another release with GitHub Actions.
+
 ## v0.9.3 - 2024-05-17
 
 Trigger another release with GitHub Actions.
