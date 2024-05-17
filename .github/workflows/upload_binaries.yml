@@ -33,8 +33,11 @@ jobs:
             os: macos-latest
           # - target: x86_64-apple-darwin
           #   os: macos-latest
-
     runs-on: ${{ matrix.os }}
+
+    permissions:
+      contents: write
+
     steps:
       - uses: actions/checkout@v4
 
