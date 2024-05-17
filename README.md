@@ -18,15 +18,27 @@ For a more detailed explanation of this code, see <https://alexwlchan.net/2024/c
 
 ## Installation
 
+### Install from source
+
 1.  Install the Xcode Command Line Tools
 2.  Download the `save_safari_webarchive.swift` script from this repo
-3.  Add the script somewhere in your PATH
+3.  Compile the script into a binary:
 
-You may also want to compile the script into a binary, and add the binary to your PATH instead:
+    ```console
+    $ swiftc save_safari_webarchive.swift
+    ```
 
-```console
-$ swiftc save_safari_webarchive
-```
+4.  Copy the compiled binary `save_safari_webarchive` to somewhere in your PATH.
+
+### Install a compiled binary
+
+1.  Find the latest [GitHub release](https://github.com/alexwlchan/safari-webarchiver/releases)
+2.  Download the zip file which is appropriate for your system (Intel = `x86_64`, Apple Silion = `aarch64`)
+3.  Open the zip file, and add the `save_safari_webarchive` app to your PATH
+
+The app is just a compiled version of the Swift script.
+It isn't notarised, so when you run it, you may get a warning that this app is from an unidentified developer.
+You can get around this by right-clicking the app icon in Finder, and choosing `Open` from the shortcut menu.
 
 ## Usage
 
