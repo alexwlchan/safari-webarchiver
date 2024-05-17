@@ -40,7 +40,8 @@ jobs:
       - name: Create the zip archive
         run: zip "save_safari_webarchive.${{ matrix.target }}.zip" save_safari_webarchive
 
-      - name: Puhs the zip file to GitHub releases
-        run: gh release upload "$GITHUB_REF" "save_safari_webarchive.${{ matrix.target }}.zip" --clobber
+      - name: Push the zip file to the GitHub release
+        run: gh release upload "$TAG" "save_safari_webarchive.${{ matrix.target }}.zip" --clobber
         env:
           GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref }}
