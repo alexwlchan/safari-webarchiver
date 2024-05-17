@@ -8,7 +8,7 @@ on:
   pull_request:
     branches:
     - main
-  
+
   # push:
   #   main
     # tags:
@@ -39,7 +39,15 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Compile the Swift script
-        run: swiftc save_safari_webarchive.swift
+        run: |
+          swiftc save_safari_webarchive.swift
+          ls
+          zip save_safari_webarchive.${{ matrix.target }}.zip save_safari_webarchive
+          ls
+
+      - name: Get GitHub releases
+        run: |
+          gh release list --limit=1
         # with:
         #   target: ${{ matrix.target }}
         #   bin: dominant_colours
