@@ -41,13 +41,13 @@ jobs:
       - name: Compile the Swift script
         run: |
           swiftc save_safari_webarchive.swift
-          ls
           zip save_safari_webarchive.${{ matrix.target }}.zip save_safari_webarchive
-          ls
 
       - name: Get GitHub releases
         run: |
           gh release list --limit=1
+        env:
+          GH_TOKEN: ${{ github.token }}
         # with:
         #   target: ${{ matrix.target }}
         #   bin: dominant_colours
