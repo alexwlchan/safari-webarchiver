@@ -7,6 +7,8 @@ This gives you an offline archive of web pages, which can be stored and backed u
 $ save_safari_webarchive.swift "https://example.com" "example.webarchive"
 ```
 
+These archives are the same as those created by the `File > Save As…` menu item, but now you can create them programatically and in bulk.
+
 ## How it works
 
 It opens the given URL in a `WKWebView`, calls `createWebArchiveData` to create a webarchive file, and saves it to disk.
@@ -19,6 +21,12 @@ For a more detailed explanation of this code, see <https://alexwlchan.net/2024/c
 1.  Install the Xcode Command Line Tools
 2.  Download the `save_safari_webarchive.swift` script from this repo
 3.  Add the script somewhere in your PATH
+
+You may also want to compile the script into a binary, and add the binary to your PATH instead:
+
+```console
+$ swiftc save_safari_webarchive
+```
 
 ## Usage
 
