@@ -4,7 +4,7 @@ This tool creates [Safari webarchive files](https://en.wikipedia.org/wiki/Webarc
 This gives you an offline archive of web pages, which can be stored and backed up independently of any cloud services.
 
 ```console
-$ save_safari_webarchive.swift "https://example.com" "example.webarchive"
+$ save_safari_webarchive "https://example.com" "example.webarchive"
 ```
 
 These archives are the same as those created by the `File > Save As…` menu item, but now you can create them programatically and in bulk.
@@ -47,10 +47,8 @@ Run the script passing two arguments: the URL you want to archive, and the path 
 For example, this command will save the URL to this GitHub repo to `safari-webarchiver.webarchive`:
 
 ```console
-$ save_safari_webarchive.swift "https://github.com/alexwlchan/safari-webarchiver" "safari-webarchiver.webarchive"
+$ save_safari_webarchive "https://github.com/alexwlchan/safari-webarchiver" "safari-webarchiver.webarchive"
 ```
-
-It will refuse to overwrite a webarchvie that
 
 ## Acknowledgements
 
