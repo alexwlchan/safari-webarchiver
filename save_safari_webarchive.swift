@@ -19,6 +19,8 @@
 
 import WebKit
 
+let SCRIPT_VERSION = "1.0"
+
 /// Print an error message and terminate the process if there are
 /// any errors while loading a page.
 class ExitOnFailureDelegate: NSObject, WKNavigationDelegate {
@@ -109,6 +111,12 @@ extension WKWebView {
       RunLoop.main.run(until: Date(timeIntervalSinceNow: 0.1))
     }
   }
+}
+
+if CommandLine.arguments.count == 2 && CommandLine.arguments[1] == "--version" {
+  let filename = (CommandLine.arguments[0] as NSString).lastPathComponent
+  print("\(filename) \(SCRIPT_VERSION)")
+  exit(0)
 }
 
 guard CommandLine.arguments.count == 3 else {
