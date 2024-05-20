@@ -6,6 +6,7 @@ import plistlib
 import re
 
 import pytest
+from pytest_httpserver import HTTPServer
 
 from utils import save_safari_webarchive
 
@@ -72,9 +73,12 @@ def test_it_fails_if_you_supply_the_wrong_arguments(argv: list[str]) -> None:
 
 @pytest.mark.parametrize("status_code", ["403", "404", "410", "500"])
 def test_it_fails_if_non_200_status_code(
-    status_code: str, out_path: pathlib.Path
+    httpserver: HTTPServer, status_code: str, out_path: pathlib.Path
 ) -> None:
-    url = f"https://httpstat.us/{status_code}"
+    httpserver.expect_request("/error").respond_with_data(
+        "Boom!", status=int(status_code), content_type="text/plain"
+    )
+    url = f"http://localhost:{httpserver.port}/error"
 
     result = save_safari_webarchive([url, out_path])
 
