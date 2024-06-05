@@ -132,5 +132,5 @@ def test_prints_the_version() -> None:
     assert result["returncode"] == 0
     assert result["stderr"] is None
     assert re.match(
-        r"^save_safari_webarchive.swift [0-9]+\.[0-9]+\n$", result["stdout"]
-    )
+        r"^save_safari_webarchive.swift [0-9]+\.[0-9]+\.[0-9]+\n$", result["stdout"]
+    ), result["stdout"]
