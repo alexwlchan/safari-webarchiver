@@ -19,7 +19,7 @@
 
 import WebKit
 
-let SCRIPT_VERSION = "0.9"
+let SCRIPT_VERSION = "1.0.1"
 
 /// Print an error message and terminate the process if there are
 /// any errors while loading a page.
