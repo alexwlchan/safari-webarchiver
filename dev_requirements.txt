@@ -14,7 +14,7 @@ pytest==8.2.2
     # via
     #   -r dev_requirements.in
     #   pytest-xdist
-pytest-httpserver==1.0.10
+pytest-httpserver==1.0.12
     # via -r dev_requirements.in
 pytest-xdist==3.6.1
     # via -r dev_requirements.in
